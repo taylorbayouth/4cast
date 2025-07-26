@@ -121,7 +121,7 @@ export default function App() {
                     {/* Header Image */}
                     <div className="flex justify-center mb-6">
                         <img 
-                            src="/header-image.jpg" 
+                            src="/header-image.png" 
                             alt="4CAST Medical Tool"
                             className="w-32 h-32 object-cover rounded-full shadow-lg"
                         />
@@ -166,30 +166,29 @@ export default function App() {
                                 transition={{ duration: 0.5 }}
                             >
                                 <div className="space-y-8">
-                                    {/* Age Input */}
+                                    {/* Age Dropdown */}
                                     <motion.div
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ duration: 0.5, delay: 0.1 }}
                                     >
                                         <label className="block text-sm font-semibold text-gray-800 mb-3">
-                                            Age (years) - Must be 50 or older
+                                            Age (years)
                                         </label>
-                                        <input
-                                            type="number"
-                                            min="50"
-                                            max="120"
+                                        <select
                                             value={age}
-                                            onChange={(e) => {
-                                                const value = parseInt(e.target.value);
-                                                if (!isNaN(value) && value >= 50) {
-                                                    setAge(value);
-                                                } else if (e.target.value === '') {
-                                                    setAge('');
-                                                }
-                                            }}
-                                            className="w-full px-4 py-3 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
-                                        />
+                                            onChange={(e) => setAge(parseInt(e.target.value))}
+                                            className="w-full px-4 py-3 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-colors bg-white"
+                                        >
+                                            {Array.from({ length: 51 }, (_, i) => {
+                                                const ageValue = i + 50;
+                                                return (
+                                                    <option key={ageValue} value={ageValue}>
+                                                        {ageValue === 100 ? '100+' : ageValue}
+                                                    </option>
+                                                );
+                                            })}
+                                        </select>
                                     </motion.div>
 
                                     {/* Diabetes Radio Buttons */}
