@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calculator, Activity, AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
 
+// Declare gtag function for Google Analytics
+const gtag = window.gtag || function() {};
+
 // Coefficients from the logistic regression model
 const COEFFICIENTS = {
     age: 0.043105212902502056,
@@ -71,7 +74,7 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel }) {
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 300 }}
                     >
-                        <span className="text-lg font-bold text-blue-600">{value}</span>
+                        <span className="text-lg font-bold text-blue-600">{value}%</span>
                     </motion.div>
                 </div>
                 <div className="flex justify-between text-xs text-gray-400 mt-1">
@@ -95,6 +98,16 @@ export default function App() {
         const newResult = calculate4CAST(age, hasDiabetes, smellRating, safetyImpact);
         setResult(newResult);
         setShowResult(true);
+        
+        // Track the calculation event in Google Analytics
+        gtag('event', 'test_completed', {
+            'age': age,
+            'has_diabetes': hasDiabetes,
+            'smell_rating': smellRating,
+            'safety_impact': safetyImpact,
+            'result': newResult.passFail,
+            'probability_percent': newResult.percentProbability
+        });
     };
 
     const handleReset = () => {
@@ -205,18 +218,6 @@ export default function App() {
                                                 <input
                                                     type="radio"
                                                     name="diabetes"
-                                                    checked={hasDiabetes === true}
-                                                    onChange={() => setHasDiabetes(true)}
-                                                    className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                                                />
-                                                <span className="text-sm font-medium text-gray-800 group-hover:text-gray-600 transition-colors">
-                                                    Yes
-                                                </span>
-                                            </label>
-                                            <label className="flex items-center space-x-2 cursor-pointer group">
-                                                <input
-                                                    type="radio"
-                                                    name="diabetes"
                                                     checked={hasDiabetes === false}
                                                     onChange={() => setHasDiabetes(false)}
                                                     className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 cursor-pointer"
@@ -225,6 +226,18 @@ export default function App() {
                                                     No
                                                 </span>
                                             </label>
+                                            <label className="flex items-center space-x-2 cursor-pointer group">
+                                                <input
+                                                    type="radio"
+                                                    name="diabetes"
+                                                    checked={hasDiabetes === true}
+                                                    onChange={() => setHasDiabetes(true)}
+                                                    className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                                                />
+                                                <span className="text-sm font-medium text-gray-800 group-hover:text-gray-600 transition-colors">
+                                                    Yes
+                                                </span>
+                                            </label>                                            
                                         </div>
                                     </motion.div>
 
