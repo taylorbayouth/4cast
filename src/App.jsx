@@ -173,37 +173,60 @@ export default function App() {
                                         transition={{ duration: 0.5, delay: 0.1 }}
                                     >
                                         <label className="block text-sm font-semibold text-gray-800 mb-3">
-                                            Age (years)
+                                            Age (years) - Must be 50 or older
                                         </label>
                                         <input
                                             type="number"
-                                            min="1"
+                                            min="50"
                                             max="120"
                                             value={age}
-                                            onChange={(e) => setAge(parseInt(e.target.value) || 0)}
+                                            onChange={(e) => {
+                                                const value = parseInt(e.target.value);
+                                                if (!isNaN(value) && value >= 50) {
+                                                    setAge(value);
+                                                } else if (e.target.value === '') {
+                                                    setAge('');
+                                                }
+                                            }}
                                             className="w-full px-4 py-3 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
                                         />
                                     </motion.div>
 
-                                    {/* Diabetes Checkbox */}
+                                    {/* Diabetes Radio Buttons */}
                                     <motion.div
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ duration: 0.5, delay: 0.2 }}
                                     >
-                                        <label className="flex items-center space-x-3 cursor-pointer group">
-                                            <div className="relative">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={hasDiabetes}
-                                                    onChange={(e) => setHasDiabetes(e.target.checked)}
-                                                    className="w-6 h-6 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                                                />
-                                            </div>
-                                            <span className="text-sm font-semibold text-gray-800 group-hover:text-gray-600 transition-colors">
-                                                Have you been diagnosed with Type 2 Diabetes?
-                                            </span>
+                                        <label className="block text-sm font-semibold text-gray-800 mb-3">
+                                            Have you been diagnosed with Type 2 Diabetes?
                                         </label>
+                                        <div className="flex space-x-6">
+                                            <label className="flex items-center space-x-2 cursor-pointer group">
+                                                <input
+                                                    type="radio"
+                                                    name="diabetes"
+                                                    checked={hasDiabetes === true}
+                                                    onChange={() => setHasDiabetes(true)}
+                                                    className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                                                />
+                                                <span className="text-sm font-medium text-gray-800 group-hover:text-gray-600 transition-colors">
+                                                    Yes
+                                                </span>
+                                            </label>
+                                            <label className="flex items-center space-x-2 cursor-pointer group">
+                                                <input
+                                                    type="radio"
+                                                    name="diabetes"
+                                                    checked={hasDiabetes === false}
+                                                    onChange={() => setHasDiabetes(false)}
+                                                    className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                                                />
+                                                <span className="text-sm font-medium text-gray-800 group-hover:text-gray-600 transition-colors">
+                                                    No
+                                                </span>
+                                            </label>
+                                        </div>
                                     </motion.div>
 
                                     {/* Smell Rating Slider */}
@@ -211,15 +234,15 @@ export default function App() {
                                         value={smellRating}
                                         onChange={setSmellRating}
                                         label="How would you rate your ability to smell?"
-                                        sublabel="For example: flowers, soap, or garbage"
+                                        sublabel="For example, sniffing flowers, soap, or smelling garbage?"
                                     />
 
                                     {/* Safety Impact Slider */}
                                     <Slider
                                         value={safetyImpact}
                                         onChange={setSafetyImpact}
-                                        label="How much has reduced smell affected your safety?"
-                                        sublabel="Such as detecting gas leaks, smoke, or spoiled food"
+                                        label="How much has lost sense of smell impacted your safety?"
+                                        sublabel="To gas leak, smoke, spoiled food, etc.?"
                                     />
 
                                     {/* Calculate Button */}
@@ -310,6 +333,34 @@ export default function App() {
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Information about smell loss */}
+                <motion.div 
+                    className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                >
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Information regarding smell loss:</h3>
+                    <ul className="space-y-3 text-gray-700">
+                        <li className="flex items-start space-x-2">
+                            <span className="text-blue-600 mt-1">•</span>
+                            <span>Olfactory dysfunction (smell loss) is common in older adults with some estimates reporting over half of adults 65 years or older have olfactory loss</span>
+                        </li>
+                        <li className="flex items-start space-x-2">
+                            <span className="text-blue-600 mt-1">•</span>
+                            <span>Smell usually declines slowly over time and patients are often unaware they have smell loss</span>
+                        </li>
+                        <li className="flex items-start space-x-2">
+                            <span className="text-blue-600 mt-1">•</span>
+                            <span>Smell loss can be associated with cognitive loss, dementia, depression, altered diet, anxiety, and social isolation. (<a href="https://pubmed.ncbi.nlm.nih.gov/40305767/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">https://pubmed.ncbi.nlm.nih.gov/40305767/</a>)</span>
+                        </li>
+                        <li className="flex items-start space-x-2">
+                            <span className="text-blue-600 mt-1">•</span>
+                            <span>Fortunately, there are treatments for age-related olfactory loss and new research is being conducted.</span>
+                        </li>
+                    </ul>
+                </motion.div>
 
                 {/* Disclaimer */}
                 <motion.div 
