@@ -110,7 +110,7 @@ export default function App() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-            <div className="container mx-auto px-4 py-8 max-w-2xl">
+            <div className="container mx-auto px-4 py-8 max-w-3xl">
                 {/* Header */}
                 <motion.div 
                     className="text-center mb-10"
@@ -118,20 +118,35 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                <div className="flex justify-center mb-4">
-                    <div className="p-4 bg-blue-100 rounded-full">
-                        <svg className="w-10 h-10 text-blue-600" viewBox="0 0 80 80" fill="currentColor">
-                            <path d="M69.761 37.241L59.591 27.072C55.701 23.182 49.959 16.301 46.827 11.779L39.6613 1.43527C39.0386 0.536342 38.0145 0 36.921 0C34.2314 0 32.649 3.02118 34.1807 5.23208L41.346 15.575C44.735 20.466 50.679 27.587 54.878 31.786L65.054 41.96C66.31 43.216 67 44.886 67 46.667C67 48.447 66.307 50.12 65.054 51.374C64.425 52.002 63.69 52.493 62.886 52.829L47.273 59.29C40.759 61.989 37.087 69.235 38.911 75.784L39.4018 77.5557C39.802 79.0001 41.1166 80 42.6154 80C44.8198 80 46.4174 77.8991 45.8273 75.7751C45.671 75.2126 45.505 74.6153 45.333 73.997C44.415 70.7 46.44 66.852 49.825 65.449L65.434 58.987C67.065 58.307 68.53 57.321 69.76 56.093C72.172 53.684 73.666 50.351 73.666 46.666C73.667 42.981 72.176 39.648 69.761 37.241Z"/>
-                            <path d="M43.667 51.044C43.667 52.3082 42.6422 53.333 41.378 53.333C37.97 53.33 34.559 54.632 31.951 57.236L23.094 66.093C20.685 68.509 17.352 70 13.666 70C6.30301 70 0.333008 64.03 0.333008 56.667C0.333008 52.3394 1.70382 48.335 4.03791 45.0659C5.10787 43.5674 7.24614 43.583 8.54635 44.8868C9.84591 46.19 9.79678 48.2852 8.85555 49.8667C7.64568 51.8996 7.00001 54.2308 7.00001 56.667C7.00001 60.342 9.98901 63.333 13.666 63.333C15.448 63.333 17.12 62.644 18.373 61.387L27.237 52.523C31.016 48.748 36.033 46.668 41.365 46.668C41.372 46.668 41.378 46.668 41.385 46.668C42.6453 46.668 43.667 47.6897 43.667 48.95V51.044Z"/>
-                        </svg>
+                    {/* Header Image */}
+                    <div className="flex justify-center mb-6">
+                        <img 
+                            src="/header-image.jpg" 
+                            alt="4CAST Medical Tool"
+                            className="w-32 h-32 object-cover rounded-full shadow-lg"
+                        />
                     </div>
-                </div>
-                    <h1 className="text-4xl font-bold text-gray-800 mb-3">
-                        4CAST Calculator
+                    
+                    <h1 className="text-4xl font-bold text-gray-800 mb-4">
+                        4-Item Concise Aging adults Smell Test (4CAST)
                     </h1>
-                    <p className="text-gray-600 max-w-md mx-auto">
-                        A quick assessment tool to evaluate your risk of smell loss
+                    <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+                        A quick screening tool to evaluate your risk of smell loss
                     </p>
+                    
+                    {/* Information Section */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-left max-w-2xl mx-auto mb-8">
+                        <p className="text-gray-700 leading-relaxed">
+                            Researchers at the Medical University of South Carolina developed the 4-item Concise 
+                            Aging adults Smell Test (4CAST) to help predict smell loss in adults 50 years or older. 
+                            Please take the 4CAST below in an anonymous, free fashion.
+                        </p>
+                        <p className="text-gray-700 leading-relaxed mt-4">
+                            If the test reports failure (likely some decline in smell function), please see a medical 
+                            provider (usually an Ear Nose and Throat doctor) for detailed smell testing and 
+                            treatment.
+                        </p>
+                    </div>
                 </motion.div>
 
                 <AnimatePresence mode="wait">
