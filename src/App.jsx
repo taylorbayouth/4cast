@@ -49,20 +49,26 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabe
       transition={{ duration: 0.4 }}
     >
       <div>
-        <label className="block text-lg font-semibold text-slate-800 mb-1">{label}</label>
-        {sublabel && <p className="text-base text-slate-500">{sublabel}</p>}
+        <label className="block text-xl font-semibold text-slate-800 mb-1">{label}</label>
+        {sublabel && <p className="text-lg text-slate-500">{sublabel}</p>}
       </div>
 
       {/* Endpoint labels — large and bold, above the slider */}
       <div className="flex justify-between items-baseline px-1">
-        <span className="text-lg font-bold text-teal-700">{leftLabel}</span>
-        <ArrowRight className="w-4 h-4 text-slate-300" />
-        <span className="text-lg font-bold text-red-600">{rightLabel}</span>
+        <span className="text-xl font-bold text-teal-700">{leftLabel}</span>
+        <ArrowRight className="w-5 h-5 text-slate-300" />
+        <span className="text-xl font-bold text-red-600">{rightLabel}</span>
       </div>
 
       <div className="relative pt-2 pb-2">
         <div className="slider-track-bg" />
-        <div className="slider-track-fill" style={{ width: `${percent}%` }} />
+        <div
+          className="slider-track-fill"
+          style={{
+            width: `${percent}%`,
+            backgroundSize: percent > 0 ? `${100 / percent * 100}% 100%` : '100% 100%',
+          }}
+        />
         <input
           type="range"
           min={min}
@@ -88,6 +94,7 @@ export default function App() {
     const newResult = calculate4CAST(age, hasDiabetes, smellRating, safetyImpact);
     setResult(newResult);
     setShowResult(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     gtag('event', 'test_completed', {
       age,
@@ -131,20 +138,20 @@ export default function App() {
             />
           </div>
 
-          <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-2">
+          <h1 className="text-5xl font-bold text-slate-900 tracking-tight mb-2">
             4CAST
           </h1>
-          <p className="text-base font-medium text-slate-500 uppercase tracking-widest mb-4">
+          <p className="text-lg font-medium text-slate-500 uppercase tracking-widest mb-4">
             4-Item Concise Aging Adults Smell Test
           </p>
-          <p className="text-base text-slate-600 max-w-lg mx-auto leading-relaxed">
+          <p className="text-lg text-slate-600 max-w-lg mx-auto leading-relaxed">
             A quick, free, and anonymous screening tool to evaluate your risk of smell loss in adults 50+.
           </p>
         </motion.header>
 
         {/* About card */}
         <motion.div
-          className="bg-white border border-slate-200 rounded-xl p-6 mb-8 text-base text-slate-600 leading-relaxed"
+          className="bg-white border border-slate-200 rounded-xl p-6 mb-8 text-lg text-slate-600 leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -189,8 +196,8 @@ export default function App() {
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                <h2 className="text-xl font-semibold text-slate-800 mb-8 flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-teal-600" />
+                <h2 className="text-2xl font-semibold text-slate-800 mb-8 flex items-center gap-2">
+                  <Activity className="w-6 h-6 text-teal-600" />
                   Screening Questions
                 </h2>
 
@@ -201,12 +208,12 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.1 }}
                   >
-                    <label className="block text-lg font-semibold text-slate-800 mb-2">Age (years)</label>
+                    <label className="block text-xl font-semibold text-slate-800 mb-2">Age (years)</label>
                     <div className="relative">
                       <select
                         value={age}
                         onChange={(e) => setAge(parseInt(e.target.value))}
-                        className="w-full px-4 py-3.5 text-lg border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors bg-white appearance-none cursor-pointer"
+                        className="w-full px-4 py-3.5 text-xl border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors bg-white appearance-none cursor-pointer"
                       >
                         {Array.from({ length: 51 }, (_, i) => {
                           const ageValue = i + 50;
@@ -217,7 +224,7 @@ export default function App() {
                           );
                         })}
                       </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 pointer-events-none" />
                     </div>
                   </motion.div>
 
@@ -227,7 +234,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.2 }}
                   >
-                    <label className="block text-lg font-semibold text-slate-800 mb-3">
+                    <label className="block text-xl font-semibold text-slate-800 mb-3">
                       Have you been diagnosed with Type 2 Diabetes?
                     </label>
                     <div className="flex gap-3">
@@ -236,7 +243,7 @@ export default function App() {
                           key={String(val)}
                           type="button"
                           onClick={() => setHasDiabetes(val)}
-                          className={`flex-1 py-3.5 rounded-lg text-base font-semibold border-2 transition-all duration-200 cursor-pointer ${
+                          className={`flex-1 py-3.5 rounded-lg text-lg font-semibold border-2 transition-all duration-200 cursor-pointer ${
                             hasDiabetes === val
                               ? 'border-teal-600 bg-teal-50 text-teal-700'
                               : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
@@ -271,11 +278,11 @@ export default function App() {
                   {/* Calculate Button */}
                   <motion.button
                     onClick={handleCalculate}
-                    className="w-full py-4 bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 hover:from-teal-700 hover:via-teal-600 hover:to-cyan-700 text-white text-lg font-semibold rounded-lg shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-4 bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 hover:from-teal-700 hover:via-teal-600 hover:to-cyan-700 text-white text-xl font-semibold rounded-lg shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
-                    <Activity className="w-5 h-5" />
+                    <Activity className="w-6 h-6" />
                     <span>Calculate Risk</span>
                   </motion.button>
                 </div>
@@ -304,11 +311,11 @@ export default function App() {
                   >
                     {result.hasSmellLoss ? (
                       <div className="p-5 bg-red-50 rounded-full">
-                        <XCircle className="w-14 h-14 text-red-500" />
+                        <XCircle className="w-16 h-16 text-red-500" />
                       </div>
                     ) : (
                       <div className="p-5 bg-emerald-50 rounded-full">
-                        <CheckCircle2 className="w-14 h-14 text-emerald-500" />
+                        <CheckCircle2 className="w-16 h-16 text-emerald-500" />
                       </div>
                     )}
                   </motion.div>
@@ -318,7 +325,7 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
                   >
-                    <span className={`inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3 ${
+                    <span className={`inline-block text-sm font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3 ${
                       result.hasSmellLoss
                         ? 'bg-red-100 text-red-700'
                         : 'bg-emerald-100 text-emerald-700'
@@ -333,14 +340,14 @@ export default function App() {
                     transition={{ delay: 0.4 }}
                     className="mb-6"
                   >
-                    <p className="text-3xl font-bold text-slate-800 mb-2">
+                    <p className="text-4xl font-bold text-slate-800 mb-2">
                       {result.percentProbability}%
                     </p>
-                    <p className="text-sm text-slate-500">
+                    <p className="text-base text-slate-500">
                       probability of smell loss
                     </p>
                     {result.hasSmellLoss && (
-                      <p className="text-sm text-red-600 font-medium mt-3">
+                      <p className="text-base text-red-600 font-medium mt-3">
                         Consider consulting a healthcare professional
                       </p>
                     )}
@@ -353,7 +360,7 @@ export default function App() {
                   >
                     <button
                       onClick={handleReset}
-                      className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors cursor-pointer"
+                      className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-lg font-semibold rounded-lg transition-colors cursor-pointer"
                     >
                       Calculate Again
                     </button>
@@ -368,8 +375,8 @@ export default function App() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                <h3 className="text-base font-semibold text-slate-800 mb-4">About smell loss</h3>
-                <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">About smell loss</h3>
+                <ul className="space-y-3 text-base text-slate-600 leading-relaxed">
                   <li className="flex items-start gap-2">
                     <span className="text-teal-500 mt-0.5 shrink-0">&#8226;</span>
                     <span>
@@ -405,13 +412,13 @@ export default function App() {
 
               {/* Disclaimer */}
               <motion.div
-                className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800"
+                className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-base text-amber-800"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
               >
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                  <AlertCircle className="w-5 h-5 mt-0.5 shrink-0" />
                   <p>
                     <strong>Disclaimer:</strong> This tool is for informational purposes only and does not
                     constitute medical advice. Please consult with a qualified healthcare professional for any
