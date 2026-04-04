@@ -1,7 +1,7 @@
 // App.jsx
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calculator, AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
+import { Activity, AlertCircle, CheckCircle2, XCircle, ChevronDown, ArrowRight } from 'lucide-react';
 
 // Declare gtag function for Google Analytics
 const gtag = typeof window !== 'undefined' && window.gtag ? window.gtag : function() {};
@@ -37,46 +37,40 @@ function calculate4CAST(age, hasDiabetes, smellRating, safetyImpact) {
   };
 }
 
-// Custom slider component
+// Modern slider component — no numeric value, prominent endpoint labels
 function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabel, rightLabel }) {
+  const percent = ((value - min) / (max - min)) * 100;
+
   return (
     <motion.div
-      className="space-y-3"
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5 }}
+      className="space-y-4"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
     >
       <div>
-        <label className="block text-sm font-semibold text-gray-800 mb-1">{label}</label>
-        {sublabel && <p className="text-xs text-gray-500 mb-3 font-bold">{sublabel}</p>}
+        <label className="block text-lg font-semibold text-slate-800 mb-1">{label}</label>
+        {sublabel && <p className="text-base text-slate-500">{sublabel}</p>}
       </div>
-      <div className="relative">
-        <div className="flex items-center space-x-4">
-          <input
-            type="range"
-            min={min}
-            max={max}
-            value={value}
-            onChange={(e) => onChange(parseInt(e.target.value))}
-            className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-            style={{
-              background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${value}%, #e5e7eb ${value}%, #e5e7eb 100%)`
-            }}
-          />
-          <motion.div
-            className="w-16 text-center"
-            key={value}
-            initial={{ scale: 1.2 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <span className="text-lg font-bold text-blue-600">{value}%</span>
-          </motion.div>
-        </div>
-        <div className="flex justify-between text-xs text-gray-400 mt-1">
-          <span>{leftLabel}</span>
-          <span>{rightLabel}</span>
-        </div>
+
+      {/* Endpoint labels — large and bold, above the slider */}
+      <div className="flex justify-between items-baseline px-1">
+        <span className="text-lg font-bold text-teal-700">{leftLabel}</span>
+        <ArrowRight className="w-4 h-4 text-slate-300" />
+        <span className="text-lg font-bold text-red-600">{rightLabel}</span>
+      </div>
+
+      <div className="relative pt-2 pb-2">
+        <div className="slider-track-bg" />
+        <div className="slider-track-fill" style={{ width: `${percent}%` }} />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          value={value}
+          onChange={(e) => onChange(parseInt(e.target.value))}
+          className="slider-input"
+        />
       </div>
     </motion.div>
   );
@@ -117,58 +111,67 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div className="container mx-auto px-4 py-8 max-w-3xl">
+    <div className="min-h-screen bg-slate-50">
+      {/* Top accent bar */}
+      <div className="h-1 bg-gradient-to-r from-teal-500 via-teal-600 to-cyan-600" />
+
+      <div className="container mx-auto px-4 py-10 max-w-2xl">
         {/* Header */}
-        <motion.div
+        <motion.header
           className="text-center mb-10"
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-5">
             <img
               src="/header-image.png"
               alt="4CAST Medical Tool"
-              className="w-32 h-32 object-cover rounded-full shadow-lg"
+              className="w-24 h-24 object-cover rounded-full shadow-md"
             />
           </div>
 
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            4-Item Concise Aging Adults Smell Test (4CAST)
+          <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-2">
+            4CAST
           </h1>
-          <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-            A quick screening tool to evaluate your risk of smell loss
+          <p className="text-base font-medium text-slate-500 uppercase tracking-widest mb-4">
+            4-Item Concise Aging Adults Smell Test
           </p>
+          <p className="text-base text-slate-600 max-w-lg mx-auto leading-relaxed">
+            A quick, free, and anonymous screening tool to evaluate your risk of smell loss in adults 50+.
+          </p>
+        </motion.header>
 
-          {/* Information Section */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-left mx-auto mb-8">
-            <p className="text-gray-700 leading-relaxed">
-              Researchers at the{' '}
-              
-                <a href="https://muschealth.org/medical-services/ent/sinus-center/smell-and-taste"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 underline"
-              >
-                Medical University of South Carolina (MUSC)
-              </a>{' '}
-              developed the{' '}
-              
-                <a href="https://pubmed.ncbi.nlm.nih.gov/39462307/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 underline"
-              >
-                4-item Concise Aging adults Smell Test (4CAST)
-              </a>{' '}
-              to help predict smell loss in adults 50 years or older. Please take the 4CAST below in an anonymous, free fashion.
-            </p>
-            <p className="text-gray-700 leading-relaxed mt-4">
-              If the test reports failure, likely some decline in smell function, please see a medical
-              provider, usually an Ear Nose and Throat doctor, for detailed smell testing and treatment.
-            </p>
-          </div>
+        {/* About card */}
+        <motion.div
+          className="bg-white border border-slate-200 rounded-xl p-6 mb-8 text-base text-slate-600 leading-relaxed"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <p>
+            Researchers at the{' '}
+            <a href="https://muschealth.org/medical-services/ent/sinus-center/smell-and-taste"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-teal-600 hover:text-teal-800 underline underline-offset-2"
+            >
+              Medical University of South Carolina (MUSC)
+            </a>{' '}
+            developed the{' '}
+            <a href="https://pubmed.ncbi.nlm.nih.gov/39462307/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-teal-600 hover:text-teal-800 underline underline-offset-2"
+            >
+              4CAST
+            </a>{' '}
+            to help predict smell loss in adults 50 years or older.
+          </p>
+          <p className="mt-3">
+            If the test reports failure, likely some decline in smell function, please see a medical
+            provider, usually an Ear Nose and Throat doctor, for detailed smell testing and treatment.
+          </p>
         </motion.div>
 
         <AnimatePresence mode="wait">
@@ -181,69 +184,67 @@ export default function App() {
               transition={{ duration: 0.3 }}
             >
               <motion.div
-                className="bg-white rounded-2xl shadow-xl p-8 mb-6"
-                initial={{ scale: 0.95 }}
+                className="bg-white rounded-xl shadow-sm border border-slate-200 p-7 sm:p-10"
+                initial={{ scale: 0.98 }}
                 animate={{ scale: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.4 }}
               >
-                <div className="space-y-8">
+                <h2 className="text-xl font-semibold text-slate-800 mb-8 flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-teal-600" />
+                  Screening Questions
+                </h2>
+
+                <div className="space-y-10">
                   {/* Age Dropdown */}
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
                   >
-                    <label className="block text-sm font-semibold text-gray-800 mb-3">Age (years)</label>
-                    <select
-                      value={age}
-                      onChange={(e) => setAge(parseInt(e.target.value))}
-                      className="w-full px-4 py-3 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition-colors bg-white"
-                    >
-                      {Array.from({ length: 51 }, (_, i) => {
-                        const ageValue = i + 50;
-                        return (
-                          <option key={ageValue} value={ageValue}>
-                            {ageValue === 100 ? '100+' : ageValue}
-                          </option>
-                        );
-                      })}
-                    </select>
+                    <label className="block text-lg font-semibold text-slate-800 mb-2">Age (years)</label>
+                    <div className="relative">
+                      <select
+                        value={age}
+                        onChange={(e) => setAge(parseInt(e.target.value))}
+                        className="w-full px-4 py-3.5 text-lg border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors bg-white appearance-none cursor-pointer"
+                      >
+                        {Array.from({ length: 51 }, (_, i) => {
+                          const ageValue = i + 50;
+                          return (
+                            <option key={ageValue} value={ageValue}>
+                              {ageValue === 100 ? '100+' : ageValue}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+                    </div>
                   </motion.div>
 
                   {/* Diabetes Radio Buttons */}
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
                   >
-                    <label className="block text-sm font-semibold text-gray-800 mb-3">
+                    <label className="block text-lg font-semibold text-slate-800 mb-3">
                       Have you been diagnosed with Type 2 Diabetes?
                     </label>
-                    <div className="flex space-x-6">
-                      <label className="flex items-center space-x-2 cursor-pointer group">
-                        <input
-                          type="radio"
-                          name="diabetes"
-                          checked={hasDiabetes === false}
-                          onChange={() => setHasDiabetes(false)}
-                          className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                        />
-                        <span className="text-sm font-medium text-gray-800 group-hover:text-gray-600 transition-colors">
-                          No
-                        </span>
-                      </label>
-                      <label className="flex items-center space-x-2 cursor-pointer group">
-                        <input
-                          type="radio"
-                          name="diabetes"
-                          checked={hasDiabetes === true}
-                          onChange={() => setHasDiabetes(true)}
-                          className="w-5 h-5 text-blue-600 border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                        />
-                        <span className="text-sm font-medium text-gray-800 group-hover:text-gray-600 transition-colors">
-                          Yes
-                        </span>
-                      </label>
+                    <div className="flex gap-3">
+                      {[false, true].map((val) => (
+                        <button
+                          key={String(val)}
+                          type="button"
+                          onClick={() => setHasDiabetes(val)}
+                          className={`flex-1 py-3.5 rounded-lg text-base font-semibold border-2 transition-all duration-200 cursor-pointer ${
+                            hasDiabetes === val
+                              ? 'border-teal-600 bg-teal-50 text-teal-700'
+                              : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                          }`}
+                        >
+                          {val ? 'Yes' : 'No'}
+                        </button>
+                      ))}
                     </div>
                   </motion.div>
 
@@ -270,11 +271,11 @@ export default function App() {
                   {/* Calculate Button */}
                   <motion.button
                     onClick={handleCalculate}
-                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center space-x-2"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-4 bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 hover:from-teal-700 hover:via-teal-600 hover:to-cyan-700 text-white text-lg font-semibold rounded-lg shadow-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                   >
-                    <Calculator className="w-5 h-5" />
+                    <Activity className="w-5 h-5" />
                     <span>Calculate Risk</span>
                   </motion.button>
                 </div>
@@ -283,15 +284,15 @@ export default function App() {
           ) : (
             <motion.div
               key="result"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5, type: 'spring' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
             >
               {/* Results Card */}
               <div
-                className={`bg-white rounded-2xl shadow-xl p-8 mb-6 border-2 ${
-                  result.hasSmellLoss ? 'border-red-200' : 'border-green-200'
+                className={`bg-white rounded-xl shadow-sm border-2 p-8 mb-6 ${
+                  result.hasSmellLoss ? 'border-red-300' : 'border-emerald-300'
                 }`}
               >
                 <div className="text-center">
@@ -299,53 +300,60 @@ export default function App() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                    className="flex justify-center mb-6"
+                    className="flex justify-center mb-5"
                   >
                     {result.hasSmellLoss ? (
-                      <div className="p-6 bg-red-100 rounded-full">
-                        <XCircle className="w-16 h-16 text-red-600" />
+                      <div className="p-5 bg-red-50 rounded-full">
+                        <XCircle className="w-14 h-14 text-red-500" />
                       </div>
                     ) : (
-                      <div className="p-6 bg-green-100 rounded-full">
-                        <CheckCircle2 className="w-16 h-16 text-green-600" />
+                      <div className="p-5 bg-emerald-50 rounded-full">
+                        <CheckCircle2 className="w-14 h-14 text-emerald-500" />
                       </div>
                     )}
                   </motion.div>
 
-                  <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className={`text-4xl font-bold mb-4 ${
-                      result.hasSmellLoss ? 'text-red-600' : 'text-green-600'
-                    }`}
                   >
-                    {result.passFail}
-                  </motion.h2>
+                    <span className={`inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3 ${
+                      result.hasSmellLoss
+                        ? 'bg-red-100 text-red-700'
+                        : 'bg-emerald-100 text-emerald-700'
+                    }`}>
+                      {result.passFail}
+                    </span>
+                  </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="mb-8"
+                    className="mb-6"
                   >
-                    <p className="text-2xl font-semibold text-gray-700 mb-2">
-                      {result.percentProbability}% probability of smell loss
+                    <p className="text-3xl font-bold text-slate-800 mb-2">
+                      {result.percentProbability}%
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      probability of smell loss
                     </p>
                     {result.hasSmellLoss && (
-                      <p className="text-gray-600">Consider consulting a healthcare professional</p>
+                      <p className="text-sm text-red-600 font-medium mt-3">
+                        Consider consulting a healthcare professional
+                      </p>
                     )}
                   </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="space-y-3"
                   >
                     <button
                       onClick={handleReset}
-                      className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors"
+                      className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors cursor-pointer"
                     >
                       Calculate Again
                     </button>
@@ -353,56 +361,57 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Info and disclaimer below results */}
+              {/* Info section */}
               <motion.div
-                className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6"
+                className="bg-white border border-slate-200 rounded-xl p-6 mb-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
+                transition={{ delay: 0.6 }}
               >
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Information regarding smell loss:</h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-600 mt-1">•</span>
+                <h3 className="text-base font-semibold text-slate-800 mb-4">About smell loss</h3>
+                <ul className="space-y-3 text-sm text-slate-600 leading-relaxed">
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-500 mt-0.5 shrink-0">&#8226;</span>
                     <span>
-                      Olfactory dysfunction, smell loss, is common in older adults with some estimates
-                      reporting over half of adults 65 years or older have olfactory loss
+                      Olfactory dysfunction is common in older adults — some estimates
+                      report over half of adults 65+ have olfactory loss.
                     </span>
                   </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-600 mt-1">•</span>
-                    <span>Smell usually declines slowly over time and patients are often unaware they have smell loss</span>
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-500 mt-0.5 shrink-0">&#8226;</span>
+                    <span>Smell usually declines slowly over time and patients are often unaware they have smell loss.</span>
                   </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-600 mt-1">•</span>
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-500 mt-0.5 shrink-0">&#8226;</span>
                     <span>
-                      Smell loss can be associated with cognitive loss, dementia, depression, altered diet,
+                      Smell loss can be associated with cognitive decline, dementia, depression, altered diet,
                       anxiety, and social isolation.{' '}
                       <a
                         href="https://pubmed.ncbi.nlm.nih.gov/40305767/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 underline break-all"
+                        className="text-teal-600 hover:text-teal-800 underline underline-offset-2"
                       >
-                        https://pubmed.ncbi.nlm.nih.gov/40305767/
+                        Learn more
                       </a>
                     </span>
                   </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-600 mt-1">•</span>
-                    <span>Fortunately, there are treatments for age-related olfactory loss and new research is being conducted.</span>
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-500 mt-0.5 shrink-0">&#8226;</span>
+                    <span>Fortunately, treatments exist for age-related olfactory loss and new research is ongoing.</span>
                   </li>
                 </ul>
               </motion.div>
 
+              {/* Disclaimer */}
               <motion.div
-                className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800"
+                className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
+                transition={{ delay: 0.7 }}
               >
-                <div className="flex items-start space-x-2">
-                  <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
                   <p>
                     <strong>Disclaimer:</strong> This tool is for informational purposes only and does not
                     constitute medical advice. Please consult with a qualified healthcare professional for any
@@ -414,29 +423,6 @@ export default function App() {
           )}
         </AnimatePresence>
       </div>
-
-      <style jsx>{`
-        .slider::-webkit-slider-thumb {
-          appearance: none;
-          width: 20px;
-          height: 20px;
-          background: #3b82f6;
-          cursor: pointer;
-          border-radius: 50%;
-          border: 3px solid white;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .slider::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
-          background: #3b82f6;
-          cursor: pointer;
-          border-radius: 50%;
-          border: 3px solid white;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-      `}</style>
     </div>
   );
 }
