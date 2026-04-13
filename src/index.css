@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -15,7 +15,7 @@ body {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 14px;
+  height: 28px; /* match thumb height so thumb is vertically centered */
   background: transparent;
   cursor: pointer;
   position: relative;
@@ -23,15 +23,14 @@ body {
   margin: 0;
 }
 
-/* Track backgrounds sit behind the input */
+/* Track backgrounds — vertically centered within the 28px input */
 .slider-track-bg,
 .slider-track-fill {
   position: absolute;
-  top: 50%;
+  top: 13px; /* nudged down to match thumb center */
   left: 0;
   height: 14px;
   border-radius: 9999px;
-  transform: translateY(-50%);
   pointer-events: none;
 }
 

@@ -60,7 +60,7 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabe
         <span className="text-xl font-bold text-red-600">{rightLabel}</span>
       </div>
 
-      <div className="relative pt-2 pb-2">
+      <div className="relative pt-2 pb-8">
         <div className="slider-track-bg" />
         <div
           className="slider-track-fill"
@@ -77,6 +77,18 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabe
           onChange={(e) => onChange(parseInt(e.target.value))}
           className="slider-input"
         />
+        {/* Floating value label pinned under the thumb */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: `calc(${percent}% + ${14 - (percent / 100) * 28}px)`,
+            top: '100%',
+            transform: 'translateX(-50%)',
+            marginTop: '-25px',
+          }}
+        >
+          <span className="text-base font-extrabold text-slate-700">{value}</span>
+        </div>
       </div>
     </motion.div>
   );
