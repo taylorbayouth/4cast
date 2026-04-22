@@ -55,9 +55,9 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabe
 
       {/* Endpoint labels — large and bold, above the slider */}
       <div className="flex justify-between items-baseline px-1">
-        <span className="text-xl font-bold text-teal-700">{leftLabel}</span>
-        <ArrowRight className="w-5 h-5 text-slate-300" />
-        <span className="text-xl font-bold text-red-600">{rightLabel}</span>
+        <span className="text-lg font-bold text-teal-700">{leftLabel}</span>
+        <ArrowRight className="w-5 h-5 text-slate-300 shrink-0 mx-2" />
+        <span className="text-lg font-bold text-red-600">{rightLabel}</span>
       </div>
 
       <div className="relative pt-2 pb-8">
@@ -284,7 +284,7 @@ export default function App() {
                     label="How much has lost sense of smell impacted your safety?"
                     sublabel="To gas leak, smoke, spoiled food, etc.?"
                     leftLabel="No impact"
-                    rightLabel="Biggest impact possible"
+                    rightLabel="Biggest impact"
                   />
 
                   {/* Calculate Button */}
