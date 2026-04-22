@@ -55,9 +55,9 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabe
 
       {/* Endpoint labels — large and bold, above the slider */}
       <div className="flex justify-between items-baseline px-1">
-        <span className="text-sm sm:text-base font-bold text-teal-700 whitespace-nowrap">{leftLabel}</span>
+        <span className="text-base sm:text-lg font-bold text-teal-700 whitespace-nowrap">{leftLabel}</span>
         <ArrowRight className="w-5 h-5 text-slate-500 shrink-0 mx-2" strokeWidth={2.5} />
-        <span className="text-sm sm:text-base font-bold text-red-600 whitespace-nowrap text-right">{rightLabel}</span>
+        <span className="text-base sm:text-lg font-bold text-red-600 whitespace-nowrap text-right">{rightLabel}</span>
       </div>
 
       <div className="relative pt-2 pb-8" style={{ marginTop: '-4px' }}>
@@ -84,10 +84,10 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabe
             left: `calc(${percent}% + ${14 - (percent / 100) * 28}px)`,
             top: '100%',
             transform: 'translateX(-50%)',
-            marginTop: '-25px',
+            marginTop: '-30px',
           }}
         >
-          <span className="text-lg text-slate-500">{value}</span>
+          <span className="text-[13px] text-slate-500">{value}</span>
         </div>
       </div>
     </motion.div>
