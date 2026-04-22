@@ -87,7 +87,7 @@ function Slider({ value, onChange, min = 0, max = 100, label, sublabel, leftLabe
             marginTop: '-25px',
           }}
         >
-          <span className="text-base font-extrabold text-slate-700">{value}</span>
+          <span className="text-lg text-slate-500">{value}</span>
         </div>
       </div>
     </motion.div>
